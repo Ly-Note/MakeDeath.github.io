@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android屏幕适配总结 | 炮八平五的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="开篇近日，在研究屏幕适配的问题，由于涉及比较多概念,例如ppi、dpi、dip、px等等，在适配屏幕的时候经常不得要领，写此文章，做个总结。
+相关名词屏幕尺寸：  也就是我们平时所说的某某手机是几寸屏， 比如HTC one V这款手机是3.7寸的， 这里的寸说的是英寸（inch），国际上习惯使用的单位，1inch = 2.54cm，3.7寸指的是屏幕的对角线的长度。屏幕分辨率： 指屏幕的宽和高的像">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android屏幕适配总结">
+<meta property="og:url" content="http://MakeDeath.github.io/2017/02/23/Android屏幕适配总结/index.html">
+<meta property="og:site_name" content="炮八平五的博客">
+<meta property="og:description" content="开篇近日，在研究屏幕适配的问题，由于涉及比较多概念,例如ppi、dpi、dip、px等等，在适配屏幕的时候经常不得要领，写此文章，做个总结。
+相关名词屏幕尺寸：  也就是我们平时所说的某某手机是几寸屏， 比如HTC one V这款手机是3.7寸的， 这里的寸说的是英寸（inch），国际上习惯使用的单位，1inch = 2.54cm，3.7寸指的是屏幕的对角线的长度。屏幕分辨率： 指屏幕的宽和高的像">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-2f42367356a2cc00.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-4fbea793e8b48b8b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-faf8568cfd1fa2ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1040">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-fa50c5d5bf9b1190.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1040">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-137a112e10dca8a8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1040">
+<meta property="og:updated_time" content="2017-02-23T14:45:52.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android屏幕适配总结">
+<meta name="twitter:description" content="开篇近日，在研究屏幕适配的问题，由于涉及比较多概念,例如ppi、dpi、dip、px等等，在适配屏幕的时候经常不得要领，写此文章，做个总结。
+相关名词屏幕尺寸：  也就是我们平时所说的某某手机是几寸屏， 比如HTC one V这款手机是3.7寸的， 这里的寸说的是英寸（inch），国际上习惯使用的单位，1inch = 2.54cm，3.7寸指的是屏幕的对角线的长度。屏幕分辨率： 指屏幕的宽和高的像">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3185572-2f42367356a2cc00.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternative" href="/atom.xml" title="炮八平五的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/assets/image/logo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">炮八平五</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/随笔/">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/文章/" style="font-size: 10px;">文章</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">扬帆起航。。~~</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">炮八平五</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/assets/image/logo.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">炮八平五</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/随笔/">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-Android屏幕适配总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/23/Android屏幕适配总结/" class="article-date">
+  	<time datetime="2017-02-23T14:29:00.000Z" itemprop="datePublished">Feb 23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android屏幕适配总结
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文章/">文章</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h2><p>近日，在研究屏幕适配的问题，由于涉及比较多概念,例如ppi、dpi、dip、px等等，在适配屏幕的时候经常不得要领，写此文章，做个总结。</p>
+<h2 id="相关名词"><a href="#相关名词" class="headerlink" title="相关名词"></a>相关名词</h2><p><strong>屏幕尺寸</strong>：  也就是我们平时所说的某某手机是几寸屏， 比如HTC one V这款手机是3.7寸的， 这里的寸说的是英寸（inch），国际上习惯使用的单位，1inch = 2.54cm，3.7寸指的是屏幕的对角线的长度。<br><strong>屏幕分辨率</strong>： 指屏幕的宽和高的像素数， 比如HTC one V是480x800的。<br><strong>屏幕密度</strong>：   每英寸的像素数，比如HTC one V， 是252 px/inch。<br><strong>px</strong>：  像素。一块显示屏是由很多的光点组成的，每一个光点就是一个像素。由于这些光点很小很密，想想看，在上面提到的3.7寸的手机上，横向有480个光点，纵向有800个光点，所以显示出来的文字或者图片才很细腻平滑。<br><strong>ppi</strong>： 和屏幕密度一个意思， 全称是pixel per inch.  是专业一点的叫法。<a id="more"></a><br><strong>dpi</strong>： dot per inch，每英寸的点数。在电子显示范畴内它和PPI是一个意思。 只有在打印时这个缩写才有意义，在打印领域不存在 PPI的叫法，只说DPI，它表示打印机每英寸打印几个像素点。宽高同样像素下，dpi越大，打印出来的图案越小。<br><strong>dip</strong>： 或者叫dp，这是开发中特有的一种度量，称作屏幕无关像素， 它不表示任何具体的长度或者像素点， 这个值只有在 具体屏幕密度的手机上，才会被转换为具体的像素值。 这个时候才会有实际意义。</p>
+<h2 id="dip在屏幕中显示"><a href="#dip在屏幕中显示" class="headerlink" title="dip在屏幕中显示"></a>dip在屏幕中显示</h2><p>首先看图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-2f42367356a2cc00.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="drawable文件夹dpi与屏幕ppi的关系（图1）"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-4fbea793e8b48b8b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dip与相应dpi放大系数（图2）"></p>
+<p>首先，假设我们需要设计一个屏幕宽的控件而不使用match_parent在这个参数，在一个1280x720像素，5英寸的屏幕中，我们可以计算出该屏幕的dpi（ppi）=（1280^2+720^2）^0.5 / 5 = 1468.60 / 5 = 293.72 ， 根据上表可知：240dpi&lt;293.72dpi&lt;320dpi，所以该屏幕对应的主流像素密度xhdpi，此时由图2我们可知，在该屏幕设计1dip的长度，其实际尺寸应为2px。此时，需要设计一个控件其宽为屏幕宽（720px），我们就可以将其width设置为720 / 2 = 360dip。</p>
+<p>看到这里，你或许会有疑问：在不同屏幕尺寸，设计一个占据屏幕宽的控件，难道都需要这么麻烦吗？也不一定是。<br>我们再举一个常见的屏幕尺寸：1920x1080像素，5.5英寸的屏幕。通过计算得出dpi=400.53，属于xxhdpi。当我们设置360dip时，屏幕的实际像素为540px刚好为屏幕的一半1080px。</p>
+<p>那么，是否能得出360dip就是屏幕的宽呢？答案当然是否定的，对于目前主流的屏幕分辨率例如1280x720像素5英寸（xhdpi），1920x1080像素5.5英寸（xxhdpi）,360dip经过计算得出恰好占据屏幕。但当碰上某些奇葩屏幕分辨率时例如：1280x768像素，5寸（xhdpi）、1920x1152像素，5寸（xxhdpi），此时360dip分别对应720px与1080px，此时显然达不到屏幕的宽。</p>
+<p>由此我们可以得出结论，对于一些主流像素，主流屏幕尺寸，参考xxx手机，适配这些屏幕时，用dip（dp）就能满足我们的需要，但是对于市面上的奇葩分辨率及尺寸，我们得用其它手段适配屏幕（<a href="http://blog.csdn.net/lmj623565791/article/details/45460089" target="_blank" rel="external">例如：采用百分比的方式适配</a>）。</p>
+<h2 id="适配主流屏幕"><a href="#适配主流屏幕" class="headerlink" title="适配主流屏幕"></a>适配主流屏幕</h2><p>首先查看这副图片：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-faf8568cfd1fa2ef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1040" alt="缩放比例.png"></p>
+<p>我们可以举个例子：<br>当我们把一套适配1280x720像素的切图放在xhdpi的drawable文件夹下（其它drawable文件夹没有图片），一个xxhdpi的设备在布局文件中引用了某个切图，假设这个切图的宽占据了360px（1280x720像素屏幕的一半），由于xxhdpi设备获取到的图片在xhdpi下，故系统会自动放大该图片为360px * 1.5 = 540px，此图片刚好占据此xxhpi设备屏幕的一半。同理反过来，一套1920x1080像素的切图同样可以适配xhdpi的屏幕。<br>但是，需要注意的是，如果要适配例如800x480像素的屏幕，这套切图其实是不够的。可以举市面上的854x480像素的机型，这些机型往往在4寸到4.5寸之间，通过计算得出ppi在207.3~233.2之间，同属于hdpi。当该机型的某个控件引用了此图片（控件是自适应图片大小），可以通过计算得出实际占据屏幕的像素为：360px * 3/4 =270px。很显然，该图片已经超出屏幕的一半以上了。<br>同样，有些平板分辨率则是1920*1200（7英寸），属于xhdpi，但是360dp的宽在屏幕上的只占据720px，显然360dp并不是所有机型的屏幕宽。</p>
+<p>我们查看2016年11月与12月的设备分辨率（<a href="http://tip.umeng.com/uploads/data_report/mobile_analytics_report_december_2016.pdf" target="_blank" rel="external">友盟统计</a>）：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-fa50c5d5bf9b1190.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1040" alt="android机型分辨率统计.jpg"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-137a112e10dca8a8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1040" alt="高宽比例不同的屏幕.jpg"></p>
+<p>由统计我们可知：目前主要的屏幕宽的像素为720p、1080p、480p以及540p，如果需要适配主流屏幕，那么我们需要做的就是适配320dp的屏幕以及360dp的屏幕，对于这种差异，我们可以在layout-w320dp文件夹下创建相应的文件即可。当然由于w320dp主要对应市面上480 * 800的机型，其屏幕比例为3：5，对于高度方向的差异也很明显，如果整个界面是独占式，无法上下滚动，那么我们还需要对高度方向进行相应的调整。</p>
+<p>当然，以上主要是针对一些主流机型的屏幕适配进行总结，对于一些奇葩分辨率和一些平板则需要进行另外的适配。</p>
+<h2 id="需要几套切图"><a href="#需要几套切图" class="headerlink" title="需要几套切图"></a>需要几套切图</h2><p>对于现在屏幕设计需要给几套切图，看了大多数博客，总结出的结果是：可以仅给出一套720 * 1280 的图片，放在drawable-xhdpi的资源文件夹下。由于低dpi的设备读取高dpi文件夹的屏幕会按比例缩小，高dpi的设备读取低dpi文件夹的屏幕会按比例变大，看到这也许你会担心：如果低dpi的设备读取这些高dpi文件夹下的图片会增加内存消耗吗？笔者起先也有疑惑，首先将图片按3：4：8的比例分别放置在drawable-hdpi、drawable-xhdpi、drawable-xxhdpi文件夹下，图片的宽高也按3：4：8的比例缩放，我们长宽分别为：27x27：36x36：54x54。我们使用下面这个方法将代码读取到内存中：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image_test);</span><br><span class="line"><span class="keyword">int</span> byteCount = bitmap.getByteCount();</span><br><span class="line">Log.d(<span class="string">"MainActivity"</span>, <span class="string">"byteCount: "</span> + byteCount);</span><br></pre></td></tr></table></figure>
+<p>我们用xhdpi屏幕机型去执行这段代码，分为三种情况：</p>
+<ul>
+<li>不删除图片</li>
+<li>删除drawable-xhdpi文件夹下图片</li>
+<li>继续删除drawable-xxhdpi文件夹下图片</li>
+</ul>
+<p>最后读取的byteCount都为：5184（36*36*4、54*2/3*54*2/3*4、27*4/3*27*4/3*4）</p>
+<p>由此我们可以总结出，一套图片放置在相应文件夹下，低dpi的设备读取高dpi文件夹的图片不会导致内存消耗，但是如果你把本该放在drawable-xhdpi图片放在drawable-hdpi文件夹下，那么将会消耗更多内存，甚至会导致ImageView中显示的图片变大；如果反过来呢，本该放在drawable-xhdpi图片放在drawable-xxhdpi文件夹下，那么就会加载的图片比实际预期尺寸要小。</p>
+<p>这样做会使得xxhdpi的屏幕读取到的图片效果没有基于1080p设计的效果好，所以有的博主推荐基于1080p的设计，但是这样也会使得apk的空间变大，这当然也不是好事，鱼和熊掌不可兼得，所以还是需要看实际情况再选择哪套图设计。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><p>360dp宽是目前主流机型的屏幕宽，但不是绝对的，对于一些奇葩分辨率的屏幕以及平板则不适用。</p>
+</li>
+<li><p>320dp宽是以前主流机型的屏幕宽，同样也不是绝对的，目前市面上同样有该种屏幕的机型，占据比例大概在3.5%，如果要作主流机型适配同样不能忽略。</p>
+</li>
+<li><p>一套720p或者1080p的切图足以应对主流机型的屏幕适配问题，且低dpi的屏幕读取高dpi文件夹下的图片，由于会自动缩小相应比例，所以内存不会比读取相同dpi文件下的图片更耗内存。</p>
+</li>
+</ul>
+<p>感谢以下文章的参考：<br><a href="http://www.android100.org/html/201505/24/149342.html" target="_blank" rel="external">http://www.android100.org/html/201505/24/149342.html</a><br><a href="http://blog.csdn.net/xiebudong/article/details/37040263/" target="_blank" rel="external">http://blog.csdn.net/xiebudong/article/details/37040263/</a><br><a href="http://www.cocoachina.com/android/20151030/13971.html" target="_blank" rel="external">http://www.cocoachina.com/android/20151030/13971.html</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/01/17/RefreshListView/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ListView增加下拉刷新，上拉加载更多</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 炮八平五
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

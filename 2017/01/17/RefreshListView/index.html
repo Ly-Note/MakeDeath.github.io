@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>ListView增加下拉刷新，上拉加载更多 | 炮八平五的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="项目简介为ListView增加header和footer来实现下拉刷新和上拉加载更多，已经是Android开发老生常谈的问题，网络上有数不清的demo来方便你的项目开发，但是网络上这么多的资源导致你在选择第三方ListView时往往会陷入选择困难，与其每次都要纠结哪一家的第三方ListView比较完美，倒不如参照这些第三方ListView打造出自己想要的ListView。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ListView增加下拉刷新，上拉加载更多">
+<meta property="og:url" content="http://MakeDeath.github.io/2017/01/17/RefreshListView/index.html">
+<meta property="og:site_name" content="炮八平五的博客">
+<meta property="og:description" content="项目简介为ListView增加header和footer来实现下拉刷新和上拉加载更多，已经是Android开发老生常谈的问题，网络上有数不清的demo来方便你的项目开发，但是网络上这么多的资源导致你在选择第三方ListView时往往会陷入选择困难，与其每次都要纠结哪一家的第三方ListView比较完美，倒不如参照这些第三方ListView打造出自己想要的ListView。">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-4001255323f30725.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-55e177bcb63b7180.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-d2d646bc2ab2a590.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-24e1fbf79f5abc6d.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3185572-83dc87fc09e0ce74.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2017-02-23T14:28:59.618Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ListView增加下拉刷新，上拉加载更多">
+<meta name="twitter:description" content="项目简介为ListView增加header和footer来实现下拉刷新和上拉加载更多，已经是Android开发老生常谈的问题，网络上有数不清的demo来方便你的项目开发，但是网络上这么多的资源导致你在选择第三方ListView时往往会陷入选择困难，与其每次都要纠结哪一家的第三方ListView比较完美，倒不如参照这些第三方ListView打造出自己想要的ListView。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3185572-4001255323f30725.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440">
+  
+    <link rel="alternative" href="/atom.xml" title="炮八平五的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/assets/image/logo.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">炮八平五</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+							<li><a href="/tags/随笔/">随笔</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+					        
+								<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/文章/" style="font-size: 10px;">文章</a>
+					</div>
+				</section>
+				
+				
+				
+
+				
+				
+				<section class="switch-part switch-part3">
+				
+					<div id="js-aboutme">扬帆起航。。~~</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">炮八平五</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+			
+				<img lazy-src="/assets/image/logo.jpg" class="js-avatar">
+			
+			</div>
+			<hgroup>
+			  <h1 class="header-author">炮八平五</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+					<li><a href="/tags/随笔/">随笔</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap"><article id="post-RefreshListView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/17/RefreshListView/" class="article-date">
+  	<time datetime="2017-01-17T13:49:00.000Z" itemprop="datePublished">Jan 17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ListView增加下拉刷新，上拉加载更多
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/文章/">文章</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a>项目简介</h3><p>为ListView增加header和footer来实现下拉刷新和上拉加载更多，已经是Android开发老生常谈的问题，网络上有数不清的demo来方便你的项目开发，但是网络上这么多的资源导致你在选择第三方ListView时往往会陷入选择困难，与其每次都要纠结哪一家的第三方ListView比较完美，倒不如参照这些第三方ListView打造出自己想要的ListView。<a id="more"></a></p>
+<h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><p>项目结构比较清晰，主要分为三部分：header，footer，以及自定义的ListView，在这个项目中，笔者将其定义为：RefreshHeader，RefreshFooter以及RefreshListView</p>
+<h3 id="RefreshHeader实现"><a href="#RefreshHeader实现" class="headerlink" title="RefreshHeader实现"></a>RefreshHeader实现</h3><p>首先来看RefreshHeader的截图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-4001255323f30725.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="0.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-55e177bcb63b7180.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="1.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-d2d646bc2ab2a590.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="2.png"></p>
+<p>从图中我们可以清晰的看出图中有三种状态：</p>
+<ul>
+<li>下拉刷新</li>
+<li>松开刷新</li>
+<li>正在加载</li>
+</ul>
+<p>创建RefreshHeader.java文件让其extends<code>LinearLayout</code>，可以为其增加三种状态并初始化状态：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> PULL_TO_REFRESH = <span class="number">0</span>;    <span class="comment">//下拉刷新</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> RELEASE_TO_REFRESH = <span class="number">1</span>; <span class="comment">//松开刷新</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> REFRESHING = <span class="number">2</span>;         <span class="comment">//正在刷新</span></span><br><span class="line"><span class="keyword">int</span> mState = PULL_TO_REFRESH;</span><br></pre></td></tr></table></figure>
+<p>编写RefreshHeader我们可以分为四步来执行：</p>
+<ol>
+<li>编写布局文件</li>
+<li>根据状态改变RefreshHeader界面显示</li>
+<li>根据手指拖动位置来改变RefreshHeader高度和状态</li>
+<li>根据手指松开位置再次改变状态，滚动至相应位置</li>
+</ol>
+<h4 id="首先编写布局文件："><a href="#首先编写布局文件：" class="headerlink" title="首先编写布局文件："></a>首先编写布局文件：</h4><p>refresh_header.xml</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</span><br><span class="line">    android:layout_width="match_parent"</span><br><span class="line">    android:layout_height="wrap_content"</span><br><span class="line">    android:gravity="bottom"</span><br><span class="line">    android:orientation="vertical"&gt;</span><br><span class="line"></span><br><span class="line">    &lt;RelativeLayout</span><br><span class="line">        android:id="@+id/header_content"</span><br><span class="line">        android:layout_width="match_parent"</span><br><span class="line">        android:layout_height="@dimen/refresh_header_height"&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;LinearLayout</span><br><span class="line">            android:id="@+id/ll_pull_state"</span><br><span class="line">            android:layout_width="wrap_content"</span><br><span class="line">            android:layout_height="wrap_content"</span><br><span class="line">            android:layout_centerInParent="true"</span><br><span class="line">            android:gravity="center"</span><br><span class="line">            android:orientation="vertical"&gt;</span><br><span class="line"></span><br><span class="line">            &lt;TextView</span><br><span class="line">                android:id="@+id/tv_pull_state"</span><br><span class="line">                android:layout_width="wrap_content"</span><br><span class="line">                android:layout_height="wrap_content"</span><br><span class="line">                android:text="下拉刷新" /&gt;</span><br><span class="line">        &lt;/LinearLayout&gt;</span><br><span class="line"></span><br><span class="line">        &lt;ProgressBar</span><br><span class="line">            android:id="@+id/progressBar"</span><br><span class="line">            android:layout_width="wrap_content"</span><br><span class="line">            android:layout_height="wrap_content"</span><br><span class="line">            android:layout_centerVertical="true"</span><br><span class="line">            android:layout_gravity="center"</span><br><span class="line">            android:layout_marginRight="10dp"</span><br><span class="line">            android:layout_toLeftOf="@id/ll_pull_state"</span><br><span class="line">            android:visibility="invisible" /&gt;</span><br><span class="line"></span><br><span class="line">        &lt;ImageView</span><br><span class="line">            android:id="@+id/iv_arrow"</span><br><span class="line">            android:layout_width="wrap_content"</span><br><span class="line">            android:layout_height="wrap_content"</span><br><span class="line">            android:layout_centerVertical="true"</span><br><span class="line">            android:layout_marginRight="15dp"</span><br><span class="line">            android:layout_toLeftOf="@id/ll_pull_state"</span><br><span class="line">            android:src="@drawable/arrow_down" /&gt;</span><br><span class="line">    &lt;/RelativeLayout&gt;</span><br><span class="line"></span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<p>布局文件比较简单，就是一些简单的LinearLayout于RelativeLayout的嵌套，这里不再细说，主要来讲解下RefreshHeader.java文件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    LayoutParams lp = <span class="keyword">new</span> LayoutParams(LayoutParams.MATCH_PARENT, <span class="number">0</span>);</span><br><span class="line">    mContainer = LayoutInflater.from(context).inflate(R.layout.refresh_header, <span class="keyword">null</span>);</span><br><span class="line">    addView(mContainer, lp);</span><br><span class="line"></span><br><span class="line">    rl_my_content = (RelativeLayout) findViewById(R.id.header_content);</span><br><span class="line">    tv_pull_state = (TextView) findViewById(R.id.tv_pull_state);</span><br><span class="line">    iv_arrow = (ImageView) findViewById(R.id.iv_arrow);</span><br><span class="line">    progressBar = (ProgressBar) findViewById(R.id.progressBar);</span><br><span class="line"></span><br><span class="line">    rotateUpAnimation = <span class="keyword">new</span> RotateAnimation(<span class="number">0</span>, -<span class="number">180</span>, Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>, Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>);</span><br><span class="line">    rotateUpAnimation.setDuration(<span class="number">180</span>);</span><br><span class="line">    rotateUpAnimation.setFillAfter(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    rotateDownAnimation = <span class="keyword">new</span> RotateAnimation(-<span class="number">180</span>, <span class="number">0</span>, Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>, Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>);</span><br><span class="line">    rotateDownAnimation.setDuration(<span class="number">180</span>);</span><br><span class="line">    rotateDownAnimation.setFillAfter(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 获取头部的高度</span><br><span class="line"> * <span class="doctag">@return</span></span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getHeaderHeight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mContainer.getHeight();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span><br><span class="line"> * 修改header的高度</span><br><span class="line"> * <span class="doctag">@param</span> height</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHeaderHeight</span><span class="params">(<span class="keyword">int</span> height)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (height &lt; <span class="number">0</span>) height = <span class="number">0</span>;</span><br><span class="line">    LayoutParams layoutParams = (LayoutParams) mContainer.getLayoutParams();</span><br><span class="line">    layoutParams.height = height;</span><br><span class="line">    mContainer.setLayoutParams(layoutParams);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由代码可以看出，在我们根据布局文件创建mContainer 时候，由于xml文件中<code>android:layout_width</code>和<code>android:layout_height</code>失效，所以我们需要为其指定了一个LayoutParams，一是在为之后ListView的addHeader()方法调用之后能隐藏RefreshHeader，二是宽度让其匹配父窗体（如果不这么做，控件不居中）。由于执行过程中涉及到ImageView的旋转动画效果，我们为其指定两个旋转动画，最后再增加获取和修改RefreshHeader的高度的方法，为后续操作作准备。</p>
+<h4 id="根据状态改变RefreshHeader界面显示"><a href="#根据状态改变RefreshHeader界面显示" class="headerlink" title="根据状态改变RefreshHeader界面显示"></a>根据状态改变RefreshHeader界面显示</h4><p>初始化操作之后，我们需要根据状态为其设置相应的布局：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 根据状态设置相应的布局</span><br><span class="line"> * <span class="doctag">@param</span> state</span><br><span class="line"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setHeaderState</span><span class="params">(<span class="keyword">int</span> state)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (state == mState &amp;&amp; !isFirst) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    isFirst = <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (state == REFRESHING) &#123;</span><br><span class="line">        iv_arrow.clearAnimation();</span><br><span class="line">        progressBar.setVisibility(View.VISIBLE);</span><br><span class="line">        iv_arrow.setVisibility(View.INVISIBLE);</span><br><span class="line">        tv_pull_state.setText(<span class="string">"正在刷新"</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        progressBar.setVisibility(View.INVISIBLE);</span><br><span class="line">        iv_arrow.setVisibility(View.VISIBLE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (state) &#123;</span><br><span class="line">        <span class="keyword">case</span> PULL_TO_REFRESH:</span><br><span class="line">            <span class="keyword">if</span> (mState == RELEASE_TO_REFRESH) &#123;</span><br><span class="line">                iv_arrow.clearAnimation();</span><br><span class="line">                iv_arrow.startAnimation(rotateDownAnimation);</span><br><span class="line">            &#125;</span><br><span class="line">            tv_pull_state.setText(<span class="string">"下拉刷新"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> RELEASE_TO_REFRESH:</span><br><span class="line">            <span class="keyword">if</span> (mState == PULL_TO_REFRESH) &#123;</span><br><span class="line">                iv_arrow.clearAnimation();</span><br><span class="line">                iv_arrow.startAnimation(rotateUpAnimation);</span><br><span class="line">            &#125;</span><br><span class="line">            tv_pull_state.setText(<span class="string">"松开刷新"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    mState = state;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法逻辑比较简单，根据传递进来的<code>state</code>不同来改变不同的布局UI，这里需要注意的是，因为布局有用到动画来控制<code>iv_arrow</code>这个控件，所以每次改变状态时需要执行clearAnimation()方法，来消除之前动画效果的影响。</p>
+<h4 id="根据手指拖动位置来改变RefreshHeader高度和状态"><a href="#根据手指拖动位置来改变RefreshHeader高度和状态" class="headerlink" title="根据手指拖动位置来改变RefreshHeader高度和状态"></a>根据手指拖动位置来改变RefreshHeader高度和状态</h4><p>首先我们来看一下项目操作：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-24e1fbf79f5abc6d.gif?imageMogr2/auto-orient/strip" alt="执行下拉刷新"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3185572-83dc87fc09e0ce74.gif?imageMogr2/auto-orient/strip" alt="不执行下拉刷新"></p>
+<p>1.当拖动位置大于指定高度()时，状态改变执行<code>setHeaderState()</code>并传入<code>RELEASE_TO_REFRESH</code>参数。松开手指后，状态改变，执行<code>setHeaderState()</code>并传入<code>REFRESHING</code>参数，位置自动滚动到相应位置。</p>
+<p>2.当拖动位置小于指定高度()时，状态改变执行<code>setHeaderState()</code>并传入<code>PULL_TO_REFRESH</code>参数。松开手指后，状态不改变，位置自动滚动到隐藏位置。</p>
+<ul>
+<li>获取指定高度</li>
+</ul>
+<p>初始化高度在RefreshListView初始化方法init()中调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    mContext = context;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化mScroller，设置插值器为减速插值器,隐藏header或者footer时，数值变化先快后慢</span></span><br><span class="line">    mScroller = <span class="keyword">new</span> Scroller(mContext, <span class="keyword">new</span> DecelerateInterpolator());</span><br><span class="line">    setOnScrollListener(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化header</span></span><br><span class="line">    mHeader = <span class="keyword">new</span> RefreshHeader(mContext);</span><br><span class="line">    mHeaderContent = (RelativeLayout) mHeader.findViewById(R.id.header_content);</span><br><span class="line">    <span class="keyword">this</span>.addHeaderView(mHeader);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//初始化footer</span></span><br><span class="line">    mFooter = <span class="keyword">new</span> RefreshFooter(mContext);</span><br><span class="line">    <span class="keyword">this</span>.addFooterView(mFooter);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取header头部的固定高度</span></span><br><span class="line">    ViewTreeObserver observer = mHeader.getViewTreeObserver();</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> != observer) &#123;</span><br><span class="line">        observer.addOnGlobalLayoutListener(<span class="keyword">new</span> ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"deprecation"</span>)</span><br><span class="line">            <span class="meta">@TargetApi</span>(Build.VERSION_CODES.JELLY_BEAN)</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                mHeaderHeight = mHeaderContent.getHeight();</span><br><span class="line"></span><br><span class="line">                ViewTreeObserver observer = getViewTreeObserver();</span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">null</span> != observer) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.JELLY_BEAN) &#123;</span><br><span class="line">                        observer.removeGlobalOnLayoutListener(<span class="keyword">this</span>);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        observer.removeOnGlobalLayoutListener(<span class="keyword">this</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>改变RefreshHeader高度和RefreshHeader状态</li>
+</ul>
+<p>我们知道，RefreshHeader高度是随着手指的变化而变化，所以重写RefreshListView的onTouchEvent()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mLastY == -<span class="number">1</span>) &#123;</span><br><span class="line">        mLastY = ev.getRawY();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (ev.getAction()) &#123;</span><br><span class="line">        <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">            mLastY = ev.getRawY();</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">            <span class="keyword">float</span> dy = ev.getRawY() - mLastY;</span><br><span class="line">            mLastY = ev.getRawY();</span><br><span class="line">            <span class="keyword">if</span> (getFirstVisiblePosition() == <span class="number">0</span> &amp;&amp; (mHeader.getHeaderHeight() &gt; <span class="number">0</span> ||</span><br><span class="line">                    dy &gt; <span class="number">0</span>)) &#123;</span><br><span class="line">                <span class="comment">//OFFSET_RADIO的设置，让下拉header时感觉到阻力，增强体验</span></span><br><span class="line">                updateHeaderHeight(dy / OFFSET_RADIO);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (getLastVisiblePosition() == mTotalItemCount - <span class="number">1</span> &amp;&amp;</span><br><span class="line">                    (mFooter.getFooterMargin() &gt; <span class="number">0</span> || dy &lt; <span class="number">0</span>)) &#123;</span><br><span class="line">                <span class="comment">//原理同上</span></span><br><span class="line">                updateFooterHeight(-dy / OFFSET_RADIO);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">            mLastY = ev.getRawY();</span><br><span class="line">            <span class="keyword">if</span> (getFirstVisiblePosition() == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!mPullRefreshing &amp;&amp; mEnablePullRefresh &amp;&amp; (mHeader.getHeaderHeight() &gt; mHeaderHeight)) &#123;</span><br><span class="line">                    refresh();</span><br><span class="line">                &#125;</span><br><span class="line">                resetHeaderHeight();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (getLastVisiblePosition() == mTotalItemCount - <span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!mPullLoading &amp;&amp; mEnableLoadMore &amp;&amp; (mFooter.getFooterMargin() &gt; PULL_LOAD_MORE_DELTA)) &#123;</span><br><span class="line">                    loadMore();</span><br><span class="line">                &#125;</span><br><span class="line">                resetFooterHeight();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(ev);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意看：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (getFirstVisiblePosition() == <span class="number">0</span> &amp;&amp; (mHeader.getHeaderHeight() &gt; <span class="number">0</span> ||dy &gt; <span class="number">0</span>)) &#123;</span><br><span class="line">     <span class="comment">//OFFSET_RADIO的设置，让下拉header时感觉到阻力，增强体验</span></span><br><span class="line">     updateHeaderHeight(dy / OFFSET_RADIO);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>OFFSET_RADIO是一个大于1.0的数，通常设置在1.5到2.0之间，这里取1.8，目的是让用户下拉时RefreshHeader高度的变化比手指拖动距离小，给用户一种下拉阻力的感觉。接下来我们看<code>updateHeaderHeight(dy / OFFSET_RADIO);</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateHeaderHeight</span><span class="params">(<span class="keyword">float</span> delta)</span> </span>&#123;    </span><br><span class="line">    <span class="comment">//改变RefreshHeader高度</span></span><br><span class="line">    mHeader.setHeaderHeight((<span class="keyword">int</span>) delta + mHeader.getHeaderHeight());</span><br><span class="line">    <span class="comment">//改变RefreshHeader状态</span></span><br><span class="line">    <span class="keyword">if</span> (mEnablePullRefresh &amp;&amp; !mPullRefreshing) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mHeader.getHeaderHeight() &gt; mHeaderHeight) &#123;</span><br><span class="line">            mHeader.setHeaderState(RefreshHeader.RELEASE_TO_REFRESH);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mHeader.setHeaderState(RefreshHeader.PULL_TO_REFRESH);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//保证改变RefreshListView高度的同时，不滑动RefreshListView</span></span><br><span class="line">    setSelection(<span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码根据传进来的delta值来改变RefreshHeader的界面高度，并将与之前获取到的mHeaderHeight高度进行对比，来改变RefreshHeader的状态，进而改变RefreshHeader的界面内容。需要注意的是这里需要加上<code>setSelection(0);</code>这个方法。我们在父类ListView中找到该方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSelection</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    setSelectionFromTop(position, <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>跟进到setSelectionFromTop(int position, int y)方法中，我们可以在注释中找到：</p>
+<pre><code>Sets the selected item and positions the selection y pixels from the top edgeof the ListView. (If in touch mode, the item will not be selected but it willstill be positioned appropriately.)
+</code></pre><p>该方法的作用就是让该position上的Item顶到距离ListView上方边缘y像素的地方，说白了这个方法的使用避免了你在改变RefreshHeader高度的同时又滑动RefreshListView，避免造成你手指下拉1个单位同时，RefreshHeader的高度改变1+1/OFFSET_RADIO(非精确)的高度(由于设置RefreshHeader的高度时会把delta强制转换int类型，实际也不会这么精确)。<code>setSelection(0);</code>的设置确保你的RefreshHeader的改变高度是你所期望的1/OFFSET_RADIO手指下拉高度。</p>
+<h4 id="根据手指松开位置再次改变状态，滚动至相应位置"><a href="#根据手指松开位置再次改变状态，滚动至相应位置" class="headerlink" title="根据手指松开位置再次改变状态，滚动至相应位置"></a>根据手指松开位置再次改变状态，滚动至相应位置</h4><p>看到这里，我们再把之前写的两句话复制过来：</p>
+<p>1.当拖动位置大于指定高度()时，状态改变执行<code>setHeaderState()</code>并传入<code>RELEASE_TO_REFRESH</code>参数。松开手指后，状态改变，执行<code>setHeaderState()</code>并传入<code>REFRESHING</code>参数，位置自动滚动到相应位置。</p>
+<p>2.当拖动位置小于指定高度()时，状态改变执行<code>setHeaderState()</code>并传入<code>PULL_TO_REFRESH</code>参数。松开手指后，状态不改变，位置自动滚动到隐藏位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">    mLastY = ev.getRawY();</span><br><span class="line">    <span class="keyword">if</span> (getFirstVisiblePosition() == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!mPullRefreshing &amp;&amp; mEnablePullRefresh &amp;&amp; (mHeader.getHeaderHeight() &gt; mHeaderHeight)) &#123;</span><br><span class="line">            refresh();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//RefreshHeader位置自动滚动到相应位置</span></span><br><span class="line">        resetHeaderHeight();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">refresh</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mPullRefreshing = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (mEnablePullRefresh &amp;&amp; refreshListViewListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mHeader.setHeaderState(RefreshHeader.REFRESHING);</span><br><span class="line">        refreshListViewListener.onRefresh();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当拖动位置大于指定高度()时，松开手指，执行refresh()方法，方法中干了两件事：</p>
+<ul>
+<li>改变RefreshHeader的状态</li>
+<li>将正在刷新状态传递到外部，让其去处理</li>
+</ul>
+<p>不论最后拖动位置如何，最后都要调用resetHeaderHeight()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">resetHeaderHeight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> height = mHeader.getHeaderHeight();</span><br><span class="line">    <span class="keyword">if</span> (height == <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mPullRefreshing &amp;&amp; height &lt; mHeaderHeight) &#123;  <span class="comment">//正在刷新并且将header向上拖动隐藏时</span></span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> finalHeight = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mPullRefreshing &amp;&amp; mHeader.getHeaderHeight() &gt;= mHeaderHeight) &#123;</span><br><span class="line">        finalHeight = mHeaderHeight;</span><br><span class="line">    &#125;</span><br><span class="line">    mScrollBack = SCROLL_BACK_HEADER;</span><br><span class="line">    mScroller.startScroll(<span class="number">0</span>, height, <span class="number">0</span>, finalHeight - height, SCROLL_DURATION);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//激活computeScroll方法</span></span><br><span class="line">    invalidate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个方法中，我们最终会调用mScroller的startScroll方法，通过激活computeScroll()的方法来让我们的RefreshHeader自动滚动到我们想要的位置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mScroller.computeScrollOffset()) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mScrollBack == SCROLL_BACK_HEADER) &#123;</span><br><span class="line">            mHeader.setHeaderHeight(mScroller.getCurrY());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mFooter.setFooterMargin(mScroller.getCurrY());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">super</span>.computeScroll();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>自此，ListView下拉刷新部分就告一段落。</p>
+<h3 id="RefreshFooter实现"><a href="#RefreshFooter实现" class="headerlink" title="RefreshFooter实现"></a>RefreshFooter实现</h3><p>同样地，编写RefreshFooter我们可以分为四步来执行：</p>
+<ol>
+<li>编写布局文件</li>
+<li>根据状态改变RefreshFooter界面显示</li>
+<li>根据手指拖动位置来改变RefreshFooter高度和状态</li>
+<li>根据手指松开位置再次改变状态，滚动至相应位置</li>
+</ol>
+<p>由于RefreshFooter代码逻辑与RefreshHeader相似，这里需要注意的是RefreshFooter的初始高度默认不是0，目的是使用户松开手指惯性滑动到最底部时，显示的最后一个Item时我们设置的RefreshFooter：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mContainer.setLayoutParams(<span class="keyword">new</span> LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));</span><br></pre></td></tr></table></figure>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>整体来说，RefreshListView的逻辑整体看起来并不复杂，只要将其逻辑按照前文说的4个步骤来实现，化繁为简，就不会觉得无从下手。<br>RefreshListView是我在学习android阶段一直想写的一个项目，借由国庆期间的几天时间，研读了Github上的XListView以及PullToRefreshListView，趁着最近刚刚学习，将思路贴上来与大家分享，也算是做一份总结。如写得有错误，欢迎指正~</p>
+<p>项目代码：</p>
+<p><a href="https://github.com/MakeDeath/RefreshListView" target="_blank" rel="external">https://github.com/MakeDeath/RefreshListView</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/23/Android屏幕适配总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          Android屏幕适配总结
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+    <a class="jiathis_button_twitter"></a>
+    <a class="jiathis_button_plus"></a> 
+    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="RefreshListView" data-title="ListView增加下拉刷新，上拉加载更多" data-url="http://MakeDeath.github.io/2017/01/17/RefreshListView/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2017 炮八平五
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
