@@ -6,16 +6,37 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>JavaWeb监听器小结 | 炮八平五的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="开篇近日，在学习JavaWeb相关的知识，由于目前Web这块的知识比较多，故作此笔记。">
+  <meta name="description" content="开篇近日，在学习JavaWeb相关的知识，此笔记主要讲解一些监听器的作用。
+笔记正文
+Java Web的三大组件:Servlet、Listener、Filter.
+注意:
+listener的触发或调用,是不需要我们关注的.(这部分是由Tomcat服务器帮我们调用的)
+Tomcat与JavaEE的版本是有对应的.
+Tomcat 7.0版本 - Servlet 3.0
+Tomcat 6.0版本 - S">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaWeb监听器小结">
 <meta property="og:url" content="http://MakeDeath.github.io/2017/04/23/JavaWeb监听器小结/index.html">
 <meta property="og:site_name" content="炮八平五的博客">
-<meta property="og:description" content="开篇近日，在学习JavaWeb相关的知识，由于目前Web这块的知识比较多，故作此笔记。">
-<meta property="og:updated_time" content="2017-04-23T14:51:01.969Z">
+<meta property="og:description" content="开篇近日，在学习JavaWeb相关的知识，此笔记主要讲解一些监听器的作用。
+笔记正文
+Java Web的三大组件:Servlet、Listener、Filter.
+注意:
+listener的触发或调用,是不需要我们关注的.(这部分是由Tomcat服务器帮我们调用的)
+Tomcat与JavaEE的版本是有对应的.
+Tomcat 7.0版本 - Servlet 3.0
+Tomcat 6.0版本 - S">
+<meta property="og:updated_time" content="2017-04-24T16:34:52.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaWeb监听器小结">
-<meta name="twitter:description" content="开篇近日，在学习JavaWeb相关的知识，由于目前Web这块的知识比较多，故作此笔记。">
+<meta name="twitter:description" content="开篇近日，在学习JavaWeb相关的知识，此笔记主要讲解一些监听器的作用。
+笔记正文
+Java Web的三大组件:Servlet、Listener、Filter.
+注意:
+listener的触发或调用,是不需要我们关注的.(这部分是由Tomcat服务器帮我们调用的)
+Tomcat与JavaEE的版本是有对应的.
+Tomcat 7.0版本 - Servlet 3.0
+Tomcat 6.0版本 - S">
   
     <link rel="alternative" href="/atom.xml" title="炮八平五的博客" type="application/atom+xml">
   
@@ -209,9 +230,8 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h2><p>近日，在学习JavaWeb相关的知识，由于目前Web这块的知识比较多，故作此笔记。<a id="more"></a></p>
-<p>##笔记正文</p>
-<ul>
+        <h2 id="开篇"><a href="#开篇" class="headerlink" title="开篇"></a>开篇</h2><p>近日，在学习JavaWeb相关的知识，此笔记主要讲解一些监听器的作用。</p>
+<h2 id="笔记正文"><a href="#笔记正文" class="headerlink" title="笔记正文"></a>笔记正文</h2><ul>
 <li>Java Web的三大组件:Servlet、Listener、Filter.</li>
 <li>注意:<ul>
 <li>listener的触发或调用,是不需要我们关注的.(这部分是由Tomcat服务器帮我们调用的)</li>
@@ -224,7 +244,7 @@
 <li>Listener对于我们来讲:如何编写.</li>
 </ul>
 </li>
-<li>八大监听器:<ul>
+<li>八大监听器:<a id="more"></a><ul>
 <li>第一组:用于监听Servlet三个域对象的创建与销毁<ul>
 <li>ServletRequestListner</li>
 <li>HttpSessionListener</li>
@@ -258,7 +278,7 @@
 <li>Session对象:<ul>
 <li>创建:发生请求时,并且执行getSession()语句.</li>
 <li>销毁:执行Session的销毁方法invalidate().</li>
-<li>Session销毁三种方式：1.调用Session的invalidate()；2.超过30分钟自动销毁（测试2分钟不到）；3.非正常关闭浏览器（测试不行）；4.非正常关闭服务器</li>
+<li>Session销毁三种方式：1.调用Session的invalidate()；2.超过30分钟自动销毁；3.非正常关闭浏览器（测试不行）；4.非正常关闭服务器</li>
 </ul>
 </li>
 <li>ServletContext对象:<ul>
@@ -304,10 +324,6 @@
 </li>
 <li>当Tomcat服务器正常启动后,Session会自动从本地硬盘中读取到内存中.<ul>
 <li>保存在本地硬盘中的序列化文件,自动销毁.</li>
-</ul>
-</li>
-<li>问题:<ul>
-<li>Tomcat服务器为什么提供这么一个机制?</li>
 </ul>
 </li>
 </ul>
@@ -367,6 +383,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2017/04/25/JavaWeb过滤器小结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          JavaWeb过滤器小结
+        
+      </div>
+    </a>
   
   
     <a href="/2017/02/23/Android屏幕适配总结/" id="article-nav-older" class="article-nav-link-wrap">
